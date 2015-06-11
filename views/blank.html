@@ -1,0 +1,48 @@
+<html ng-app="" class="ng-scope" hola_ext_inject="inited"><head>
+    <title>Lista de compras com AngularJS</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/lista-compras.css">
+    <script src="lib/angular-1.0.1.js"></script><style type="text/css">@charset "UTF-8";[ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak{display:none;}ng\:form{display:block;}</style>
+    <script src="app/lista-compras.js"></script>
+</head>
+<body>
+<div class="container ng-scope" ng-controller="ListaComprasController">
+    <div class="row">
+        <div class="page-header">
+            <h1>Lista de compras</h1>
+        </div>
+    </div>
+    <div class="row">
+        <table id="lista-compras" class="table table-striped">
+            <thead>
+            <tr>
+                <th>Comprado?</th>
+                <th>Produto</th>
+                <th>Quantidade</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- ngRepeat: item in itens --><tr ng-repeat="item in itens" class="comprado-false">
+                <td><input type="checkbox" ng-model="item.comprado" class="ng-pristine ng-valid"></td>
+                <td><strong class="ng-binding">Leite</strong></td>
+                <td class="ng-binding">2</td>
+            </tr><tr ng-repeat="item in itens" class="comprado-false">
+                <td><input type="checkbox" ng-model="item.comprado" class="ng-pristine ng-valid"></td>
+                <td><strong class="ng-binding">Cerveja</strong></td>
+                <td class="ng-binding">12</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="row">
+        <form class="form-inline ng-pristine ng-valid" name="formItem">
+            <input type="text" ng-model="item.produto" placeholder="Produto" class="ng-pristine ng-valid">
+            <input type="number" ng-model="item.quantidade" placeholder="Quantidade" class="input-small ng-pristine ng-valid ng-valid-number">
+            <button class="btn btn-primary" ng-click="adicionaItem()">adicionar ítem</button>
+        </form>
+    </div>
+</div>
+
+
+</body><object id="6b7b2809-fa9a-a383-b85b-ca88e89795ab" width="0" height="0" type="application/gas-events-cef"></object><object id="c9bbf899-2b78-b296-ca8a-db8e59b2b09b" width="0" height="0" type="application/gas-events-bb"></object></html>
