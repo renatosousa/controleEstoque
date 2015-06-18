@@ -4,7 +4,10 @@
     <title><%= title %></title>
       <link rel='stylesheet' href='/stylesheets/style.css' />
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+      <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+      <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+      <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
         <script src="javascripts/romaneio.js"></script>
   </head>
@@ -18,33 +21,38 @@
 
         <div class="row">
             <form class="form-inline ng-pristine ng-valid" name="formItem">
-                <input type="number" ng-model="item.comprimento" placeholder="Comprimento" class="ng-pristine ng-valid">
+                <input type="number" ng-model="item.comprimento" placeholder="Comprimento" class="ng-pristine ng-valid" ng-required="true">
 
                 <button class="btn btn-primary" ng-click="adicionaComprimento()">add</button>
             </form>
         </div>
 
         <div class="row">
+            <form>
             <table id="lista-compras" class="table table-striped">
                 <thead>
                 <tr>
                     <th>Comprimento</th>
                     <th>Quantidade</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
                     <tr ng-repeat="item in itens" class="comprado-false">
                         <td><strong class="ng-binding" > {{ item.comprimento }}</strong></td>
-                        <td><input type="number" ng-model="item.quantidade" ng-change="change()" class="ng-pristine ng-valid"></td>
+                        <td><input type="number" ng-model="item.quantidade" ng-change="change(item.quantidade, item.indice)" ></td>
+                        <td><button ng-click="excluir(item.indice)">Excluir</button></td>
                     </tr>
                </tbody>
                 <tfoot>
                 <tr>
                     <td> Total: </td>
+                    <td></td>
                     <td class="ng-binding"> {{ total }} cm3 </td>
                 </tr>
                 </tfoot>
             </table>
+            </form>
         </div>
 
 
