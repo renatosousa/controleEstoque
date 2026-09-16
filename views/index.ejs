@@ -1,14 +1,113 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-    <script src="http://code.angularjs.org/1.0.1/angular-1.0.1.min.js"></script>
-  </head>
-  <body ng-app>
-    <h1><%= title %></h1>
+<div class="pagina-titulo">
+  <div>
+    <h1>Painel</h1>
+    <p>Visão geral da operação da loja</p>
+  </div>
+  <div class="d-flex gap-2">
+    <a href="/orcamentos/novo" class="btn btn-outline-primary"><i class="bi bi-file-earmark-plus"></i> Orçamento</a>
+    <a href="/vendas/nova" class="btn btn-primary"><i class="bi bi-cart-plus"></i> Nova venda</a>
+  </div>
+</div>
 
-    <a href="/romaneio">Romaneio</a>
+<div class="row g-3 mb-4">
+  <div class="col-6 col-lg-3">
+    <div class="card card-indicador h-100"><div class="card-body">
+      <div class="rotulo">Faturamento</div>
+      <div class="valor"><%= formato.moeda(totalVendido) %></div>
+    </div></div>
+  </div>
+  <div class="col-6 col-lg-3">
+    <div class="card card-indicador h-100"><div class="card-body">
+      <div class="rotulo">Estoque valorizado</div>
+      <div class="valor"><%= formato.moeda(valorEstoque) %></div>
+      <small class="text-muted"><%= totalProdutos %> produtos cadastrados</small>
+    </div></div>
+  </div>
+  <div class="col-6 col-lg-3">
+    <div class="card card-indicador h-100"><div class="card-body">
+      <div class="rotulo">Orçamentos abertos</div>
+      <div class="valor"><%= orcamentosAbertos %></div>
+    </div></div>
+  </div>
+  <div class="col-6 col-lg-3">
+    <div class="card card-indicador h-100"><div class="card-body">
+      <div class="rotulo">NF-e emitidas</div>
+      <div class="valor"><%= notasEmitidas %></div>
+    </div></div>
+  </div>
+</div>
 
-  </body>
-</html>
+<div class="row g-3">
+  <div class="col-lg-7">
+    <div class="card h-100">
+      <div class="card-header bg-white fw-semibold">Últimas vendas</div>
+      <div class="table-responsive">
+        <table class="table mb-0">
+          <thead><tr><th>Número</th><th>Cliente</th><th>Data</th><th class="text-end">Total</th><th>Status</th></tr></thead>
+          <tbody>
+            <% if (!vendas.length) { %>
+              <tr><td colspan="5" class="text-muted">Nenhuma venda registrada.</td></tr>
+            <% } %>
+            <% vendas.forEach(function (venda) { %>
+              <tr>
+                <td><a href="/vendas/<%= venda.id %>"><%= venda.numero %></a></td>
+                <td><%= venda.cliente %></td>
+                <td><%= formato.dataHora(venda.criado_em) %></td>
+                <td class="text-end"><%= formato.moeda(venda.total) %></td>
+                <td><span class="badge text-bg-<%= venda.status === 'faturada' ? 'success' : 'secondary' %>"><%= venda.status %></span></td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-5">
+    <div class="card h-100">
+      <div class="card-header bg-white fw-semibold text-danger">
+        <i class="bi bi-exclamation-triangle"></i> Reposição necessária
+      </div>
+      <div class="table-responsive">
+        <table class="table mb-0">
+          <thead><tr><th>Produto</th><th class="text-end">Saldo</th><th class="text-end">Mínimo</th></tr></thead>
+          <tbody>
+            <% if (!abaixoDoMinimo.length) { %>
+              <tr><td colspan="3" class="text-muted">Todos os produtos acima do estoque mínimo.</td></tr>
+            <% } %>
+            <% abaixoDoMinimo.forEach(function (produto) { %>
+              <tr>
+                <td><%= produto.descricao %></td>
+                <td class="text-end text-danger fw-semibold"><%= formato.quantidade(produto.saldo) %> <%= produto.unidade %></td>
+                <td class="text-end"><%= formato.quantidade(produto.estoque_minimo) %></td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header bg-white fw-semibold">Movimentações recentes de estoque</div>
+      <div class="table-responsive">
+        <table class="table mb-0">
+          <thead><tr><th>Data</th><th>Produto</th><th>Tipo</th><th class="text-end">Qtd.</th><th>Documento</th><th>Observação</th></tr></thead>
+          <tbody>
+            <% movimentos.forEach(function (mov) { %>
+              <tr>
+                <td><%= formato.dataHora(mov.criado_em) %></td>
+                <td><%= mov.descricao %></td>
+                <td><span class="badge text-bg-<%= mov.tipo === 'entrada' ? 'success' : (mov.tipo === 'saida' ? 'danger' : 'warning') %>"><%= mov.tipo %></span></td>
+                <td class="text-end"><%= formato.quantidade(mov.quantidade) %> <%= mov.unidade %></td>
+                <td><%= mov.documento || '-' %></td>
+                <td class="text-muted small"><%= mov.observacao || '' %></td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

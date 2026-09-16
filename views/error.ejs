@@ -1,3 +1,11 @@
-<h1><%= message %></h1>
-<h2><%= error.status %></h2>
-<pre><%= error.stack %></pre>
+<div class="pagina-titulo">
+  <div>
+    <h1>Erro <%= status %></h1>
+    <p><%= mensagem %></p>
+  </div>
+  <a href="/" class="btn btn-outline-primary">Voltar ao painel</a>
+</div>
+
+<% if (detalhe) { %>
+  <pre class="card card-body bg-white small text-muted"><%= detalhe %></pre>
+<% } %>

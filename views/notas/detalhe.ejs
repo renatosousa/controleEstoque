@@ -1,0 +1,75 @@
+<div class="pagina-titulo">
+  <div>
+    <h1>NF-e <%= nota.numero %> · série <%= nota.serie %></h1>
+    <p><%= nota.tipo === 'saida' ? 'Nota de venda emitida pela loja' : 'Nota de entrada recebida de fornecedor' %></p>
+  </div>
+  <div class="d-flex gap-2">
+    <a href="/notas/<%= nota.id %>/xml" class="btn btn-outline-primary"><i class="bi bi-download"></i> XML</a>
+    <a href="/notas" class="btn btn-outline-secondary">Voltar</a>
+  </div>
+</div>
+
+<div class="danfe mb-3">
+  <h2>DANFE — Documento Auxiliar da Nota Fiscal Eletrônica</h2>
+  <p class="text-center mb-3">
+    <%= nota.tipo === 'saida' ? '1 - SAÍDA' : '0 - ENTRADA' %> ·
+    Nº <%= nota.numero %> · Série <%= nota.serie %> · Emissão <%= formato.dataHora(nota.emitida_em) %>
+  </p>
+
+  <div class="mb-2"><strong>Chave de acesso:</strong> <span class="chave"><%= chaveFormatada %></span></div>
+  <% if (nota.protocolo) { %>
+    <div class="mb-2"><strong>Protocolo de autorização:</strong> <%= nota.protocolo %> (simulado)</div>
+  <% } %>
+
+  <hr>
+  <div class="row">
+    <div class="col-md-6">
+      <strong>Emitente</strong><br>
+      <% if (nota.tipo === 'saida') { %>
+        <%= emitente.razaoSocial %><br>
+        CNPJ <%= emitente.cnpj %> · IE <%= emitente.ie %><br>
+        <%= emitente.endereco %> — <%= emitente.municipio %>/<%= emitente.uf %>
+      <% } else { %>
+        <%= fornecedor ? fornecedor.nome : '-' %><br>
+        CNPJ <%= fornecedor && fornecedor.cnpj ? fornecedor.cnpj : '-' %>
+      <% } %>
+    </div>
+    <div class="col-md-6">
+      <strong>Destinatário</strong><br>
+      <% if (nota.tipo === 'saida' && venda) { %>
+        <%= venda.cliente %><br>
+        CPF/CNPJ <%= venda.cliente_documento || '-' %><br>
+        <%= venda.cliente_endereco || '' %>
+      <% } else { %>
+        <%= emitente.razaoSocial %><br>
+        CNPJ <%= emitente.cnpj %>
+      <% } %>
+    </div>
+  </div>
+
+  <hr>
+  <table class="table table-sm mb-0">
+    <thead><tr><th>Cód.</th><th>Descrição</th><th>Un.</th><th class="text-end">Qtd.</th><th class="text-end">Vl. unit.</th><th class="text-end">Vl. total</th></tr></thead>
+    <tbody>
+      <% const linhas = nota.tipo === 'saida' && venda
+           ? venda.itens.map(function (i) { return { codigo: i.codigo, descricao: i.descricao, unidade: i.unidade, quantidade: i.quantidade, valor: i.preco_unitario }; })
+           : itensEntrada.map(function (i) { return { codigo: i.codigo, descricao: i.descricao, unidade: i.unidade, quantidade: i.quantidade, valor: i.custo_unitario }; }); %>
+      <% linhas.forEach(function (linha) { %>
+        <tr>
+          <td><%= linha.codigo %></td>
+          <td><%= linha.descricao %></td>
+          <td><%= linha.unidade %></td>
+          <td class="text-end"><%= formato.quantidade(linha.quantidade) %></td>
+          <td class="text-end"><%= formato.moeda(linha.valor) %></td>
+          <td class="text-end"><%= formato.moeda(linha.quantidade * linha.valor) %></td>
+        </tr>
+      <% }); %>
+    </tbody>
+    <tfoot><tr><th colspan="5" class="text-end">Valor total da nota</th><th class="text-end"><%= formato.moeda(nota.valor_total) %></th></tr></tfoot>
+  </table>
+</div>
+
+<details class="card card-body">
+  <summary class="fw-semibold">XML da NF-e</summary>
+  <pre class="small mt-3 mb-0" style="white-space: pre-wrap;"><%= nota.xml %></pre>
+</details>

@@ -1,9 +1,9 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.render('romaneio', { title: 'Romaneio' });
+const router = express.Router();
+
+router.get('/', (req, res) => {
+  res.render('romaneio', { titulo: 'Romaneio de madeira' });
 });
 
 module.exports = router;

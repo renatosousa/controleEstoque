@@ -1,62 +1,58 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+const path = require('path');
+const express = require('express');
+const logger = require('morgan');
+const expressLayouts = require('express-ejs-layouts');
 
-var routes = require('./routes/index');
-var users = require('./routes/users');
-var romaneio = require('./routes/romaneio');
+const formato = require('./src/format');
 
-var app = express();
+const app = express();
 
-// view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+app.use(expressLayouts);
+app.set('layout', 'layout');
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
-app.use('/users', users);
-app.use('/romaneio', romaneio);
+app.use((req, res, next) => {
+  res.locals.formato = formato;
+  res.locals.caminhoAtual = req.path;
+  res.locals.erro = null;
+  res.locals.aviso = null;
+  next();
+});
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  var err = new Error('Not Found');
+app.use('/', require('./routes/index'));
+app.use('/produtos', require('./routes/produtos'));
+app.use('/clientes', require('./routes/clientes'));
+app.use('/estoque', require('./routes/estoque'));
+app.use('/orcamentos', require('./routes/orcamentos'));
+app.use('/vendas', require('./routes/vendas'));
+app.use('/notas', require('./routes/notas'));
+app.use('/recebimento', require('./routes/recebimento'));
+app.use('/romaneio', require('./routes/romaneio'));
+
+app.use((req, res, next) => {
+  const err = new Error('Página não encontrada');
   err.status = 404;
   next(err);
 });
 
-// error handlers
-
-// development error handler
-// will print stacktrace
-if (app.get('env') === 'development') {
-  app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-      message: err.message,
-      error: err
-    });
-  });
-}
-
-// production error handler
-// no stacktraces leaked to user
-app.use(function(err, req, res, next) {
-  res.status(err.status || 500);
-  res.render('error', {
-    message: err.message,
-    error: {}
+// eslint-disable-next-line no-unused-vars
+app.use((err, req, res, next) => {
+  const status = err.status || 500;
+  if (status >= 500) {
+    console.error(err);
+  }
+  res.status(status).render('error', {
+    titulo: `Erro ${status}`,
+    status,
+    mensagem: err.message,
+    detalhe: app.get('env') === 'development' ? err.stack : null
   });
 });
-
 
 module.exports = app;

@@ -1,0 +1,6 @@
+<% if (typeof erro !== 'undefined' && erro) { %>
+  <div class="alert alert-danger"><i class="bi bi-exclamation-triangle"></i> <%= erro %></div>
+<% } %>
+<% if (typeof aviso !== 'undefined' && aviso) { %>
+  <div class="alert alert-success"><i class="bi bi-check-circle"></i> <%= aviso %></div>
+<% } %>

@@ -1,0 +1,38 @@
+<div class="pagina-titulo">
+  <div>
+    <h1>Recebimento concluído</h1>
+    <p>NF-e <%= nota.numero %> · <%= nota.fornecedor.nome %></p>
+  </div>
+  <div class="d-flex gap-2">
+    <a href="/notas/<%= notaId %>" class="btn btn-outline-primary">Ver nota</a>
+    <a href="/estoque" class="btn btn-primary">Ir para o estoque</a>
+  </div>
+</div>
+
+<div class="alert alert-success">
+  <i class="bi bi-check-circle"></i> <%= nota.itens.length %> item(ns) adicionados ao estoque.
+  <% if (criados.length) { %>
+    <br>Produtos criados automaticamente: <strong><%= criados.join(', ') %></strong>.
+  <% } %>
+</div>
+
+<div class="card">
+  <div class="table-responsive">
+    <table class="table mb-0">
+      <thead><tr><th>Código</th><th>Descrição</th><th>Un.</th><th class="text-end">Qtd.</th><th class="text-end">Custo un.</th><th class="text-end">Total</th></tr></thead>
+      <tbody>
+        <% nota.itens.forEach(function (item) { %>
+          <tr>
+            <td><code><%= item.codigo %></code></td>
+            <td><%= item.descricao %></td>
+            <td><%= item.unidade %></td>
+            <td class="text-end"><%= formato.quantidade(item.quantidade) %></td>
+            <td class="text-end"><%= formato.moeda(item.valorUnitario) %></td>
+            <td class="text-end"><%= formato.moeda(item.quantidade * item.valorUnitario) %></td>
+          </tr>
+        <% }); %>
+      </tbody>
+      <tfoot><tr><th colspan="5" class="text-end">Valor da nota</th><th class="text-end"><%= formato.moeda(nota.valorTotal) %></th></tr></tfoot>
+    </table>
+  </div>
+</div>

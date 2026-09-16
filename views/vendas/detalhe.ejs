@@ -1,0 +1,50 @@
+<% const cores = { confirmada: 'secondary', faturada: 'success', cancelada: 'danger' }; %>
+<div class="pagina-titulo">
+  <div>
+    <h1>Venda <%= venda.numero %></h1>
+    <p><%= venda.cliente %> · <%= formato.dataHora(venda.criado_em) %> · <%= venda.forma_pagamento %></p>
+  </div>
+  <div class="d-flex gap-2 align-items-center">
+    <span class="badge text-bg-<%= cores[venda.status] %>"><%= venda.status %></span>
+    <a href="/vendas" class="btn btn-outline-secondary">Voltar</a>
+  </div>
+</div>
+
+<%- include('../partials/alertas') %>
+
+<div class="card mb-3">
+  <div class="table-responsive">
+    <table class="table mb-0">
+      <thead><tr><th>Código</th><th>Produto</th><th class="text-end">Qtd.</th><th class="text-end">Preço un.</th><th class="text-end">Subtotal</th></tr></thead>
+      <tbody>
+        <% venda.itens.forEach(function (item) { %>
+          <tr>
+            <td><code><%= item.codigo %></code></td>
+            <td><%= item.descricao %></td>
+            <td class="text-end"><%= formato.quantidade(item.quantidade) %> <%= item.unidade %></td>
+            <td class="text-end"><%= formato.moeda(item.preco_unitario) %></td>
+            <td class="text-end"><%= formato.moeda(item.quantidade * item.preco_unitario) %></td>
+          </tr>
+        <% }); %>
+      </tbody>
+      <tfoot><tr><th colspan="4" class="text-end">Total</th><th class="text-end"><%= formato.moeda(venda.total) %></th></tr></tfoot>
+    </table>
+  </div>
+</div>
+
+<div class="d-flex flex-wrap gap-2">
+  <% if (venda.nota) { %>
+    <a href="/notas/<%= venda.nota.id %>" class="btn btn-success"><i class="bi bi-receipt"></i> Ver NF-e <%= venda.nota.numero %></a>
+  <% } else if (venda.status === 'confirmada') { %>
+    <form method="post" action="/notas/emitir/<%= venda.id %>">
+      <button class="btn btn-success"><i class="bi bi-receipt"></i> Emitir NF-e</button>
+    </form>
+    <form method="post" action="/vendas/<%= venda.id %>/cancelar"
+          onsubmit="return confirm('Cancelar a venda e devolver os itens ao estoque?');">
+      <button class="btn btn-outline-danger">Cancelar venda</button>
+    </form>
+  <% } %>
+  <% if (venda.orcamento_id) { %>
+    <a href="/orcamentos/<%= venda.orcamento_id %>" class="btn btn-outline-primary">Ver orçamento de origem</a>
+  <% } %>
+</div>

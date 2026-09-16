@@ -1,0 +1,32 @@
+<div class="card">
+  <div class="card-header bg-white fw-semibold">Itens</div>
+  <div class="card-body">
+    <table class="table align-middle" id="tabela-itens">
+      <thead>
+        <tr>
+          <th style="width:45%">Produto</th>
+          <th style="width:15%">Qtd.</th>
+          <th style="width:20%">Preço unit. (R$)</th>
+          <th style="width:15%" class="text-end">Subtotal</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+      <tfoot>
+        <tr>
+          <th colspan="3" class="text-end">Total</th>
+          <th class="text-end" id="total-geral">R$ 0,00</th>
+          <th></th>
+        </tr>
+      </tfoot>
+    </table>
+    <button type="button" class="btn btn-outline-primary btn-sm" id="adicionar-item">
+      <i class="bi bi-plus-lg"></i> Adicionar item
+    </button>
+  </div>
+</div>
+
+<script id="dados-produtos" type="application/json"><%- JSON.stringify(produtos.map(function (p) {
+  return { id: p.id, codigo: p.codigo, descricao: p.descricao, unidade: p.unidade, preco: p.preco_venda, saldo: p.saldo };
+})) %></script>
+<script src="/javascripts/editor-itens.js"></script>

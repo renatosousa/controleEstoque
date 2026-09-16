@@ -1,0 +1,48 @@
+<div class="pagina-titulo">
+  <div><h1><%= titulo %></h1></div>
+  <a href="/produtos" class="btn btn-outline-secondary">Voltar</a>
+</div>
+
+<%- include('../partials/alertas') %>
+
+<form method="post" action="<%= produto && produto.id ? '/produtos/' + produto.id : '/produtos' %>" class="card card-body">
+  <div class="row g-3">
+    <div class="col-md-3">
+      <label class="form-label">Código</label>
+      <input name="codigo" class="form-control" required value="<%= produto ? (produto.codigo || '') : '' %>" <%= produto && produto.id ? 'readonly' : '' %>>
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Descrição</label>
+      <input name="descricao" class="form-control" required value="<%= produto ? (produto.descricao || '') : '' %>">
+    </div>
+    <div class="col-md-3">
+      <label class="form-label">Unidade</label>
+      <input name="unidade" class="form-control" value="<%= produto ? (produto.unidade || 'UN') : 'UN' %>">
+    </div>
+    <div class="col-md-3">
+      <label class="form-label">NCM</label>
+      <input name="ncm" class="form-control" value="<%= produto ? (produto.ncm || '') : '' %>">
+    </div>
+    <div class="col-md-3">
+      <label class="form-label">Preço de custo</label>
+      <input type="number" step="0.01" min="0" name="preco_custo" class="form-control" value="<%= produto ? (produto.preco_custo || 0) : 0 %>">
+    </div>
+    <div class="col-md-3">
+      <label class="form-label">Preço de venda</label>
+      <input type="number" step="0.01" min="0" name="preco_venda" class="form-control" value="<%= produto ? (produto.preco_venda || 0) : 0 %>">
+    </div>
+    <div class="col-md-3">
+      <label class="form-label">Estoque mínimo</label>
+      <input type="number" step="0.01" min="0" name="estoque_minimo" class="form-control" value="<%= produto ? (produto.estoque_minimo || 0) : 0 %>">
+    </div>
+    <% if (!produto || !produto.id) { %>
+      <div class="col-md-3">
+        <label class="form-label">Estoque inicial</label>
+        <input type="number" step="0.01" min="0" name="estoque_inicial" class="form-control" value="0">
+      </div>
+    <% } %>
+  </div>
+  <div class="mt-4">
+    <button class="btn btn-primary"><i class="bi bi-check-lg"></i> Salvar</button>
+  </div>
+</form>

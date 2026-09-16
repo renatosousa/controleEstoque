@@ -1,0 +1,35 @@
+<div class="pagina-titulo">
+  <div><h1>Vendas</h1><p>Toda venda confirmada baixa o estoque; o faturamento gera a NF-e</p></div>
+  <a href="/vendas/nova" class="btn btn-primary"><i class="bi bi-cart-plus"></i> Nova venda</a>
+</div>
+
+<%- include('../partials/alertas') %>
+
+<div class="card">
+  <div class="table-responsive">
+    <table class="table mb-0">
+      <thead><tr><th>Número</th><th>Cliente</th><th>Data</th><th>Pagamento</th><th class="text-end">Total</th><th>Status</th><th>NF-e</th></tr></thead>
+      <tbody>
+        <% if (!vendas.length) { %>
+          <tr><td colspan="7" class="text-muted">Nenhuma venda registrada.</td></tr>
+        <% } %>
+        <% vendas.forEach(function (venda) {
+             const cores = { confirmada: 'secondary', faturada: 'success', cancelada: 'danger' }; %>
+          <tr>
+            <td><a href="/vendas/<%= venda.id %>"><%= venda.numero %></a></td>
+            <td><%= venda.cliente %></td>
+            <td><%= formato.dataHora(venda.criado_em) %></td>
+            <td><%= venda.forma_pagamento %></td>
+            <td class="text-end"><%= formato.moeda(venda.total) %></td>
+            <td><span class="badge text-bg-<%= cores[venda.status] %>"><%= venda.status %></span></td>
+            <td>
+              <% if (venda.nota_id) { %>
+                <a href="/notas/<%= venda.nota_id %>">nº <%= venda.nota_numero %></a>
+              <% } else { %>-<% } %>
+            </td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </div>
+</div>
