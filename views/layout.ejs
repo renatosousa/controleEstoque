@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= titulo %> · Alves Madeira ERP</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="marca">
+        <i class="bi bi-hammer"></i>
+        <div>
+          <strong>Alves Madeira</strong>
+          <small>ERP · protótipo</small>
+        </div>
+      </div>
+      <nav class="nav flex-column">
+        <% const menu = [
+          ['/', 'Painel', 'bi-speedometer2'],
+          ['/orcamentos', 'Orçamentos', 'bi-file-earmark-text'],
+          ['/vendas', 'Vendas', 'bi-cart3'],
+          ['/notas', 'Notas fiscais', 'bi-receipt'],
+          ['/recebimento', 'Recebimento', 'bi-box-arrow-in-down'],
+          ['/estoque', 'Estoque', 'bi-boxes'],
+          ['/produtos', 'Produtos', 'bi-tags'],
+          ['/clientes', 'Clientes', 'bi-people'],
+          ['/romaneio', 'Romaneio', 'bi-rulers']
+        ]; %>
+        <% menu.forEach(function (item) {
+             const ativo = item[0] === '/' ? caminhoAtual === '/' : caminhoAtual.indexOf(item[0]) === 0; %>
+          <a class="nav-link <%= ativo ? 'ativo' : '' %>" href="<%= item[0] %>">
+            <i class="bi <%= item[2] %>"></i> <%= item[1] %>
+          </a>
+        <% }); %>
+      </nav>
+    </aside>
+
+    <main class="conteudo">
+      <%- body %>
+      <footer class="rodape">
+        Protótipo de demonstração — dados fictícios. A emissão de NF-e é simulada, sem comunicação com a SEFAZ.
+      </footer>
+    </main>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

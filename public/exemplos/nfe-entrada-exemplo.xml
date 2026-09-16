@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- NF-e fictícia de fornecedor, usada para demonstrar o recebimento de mercadoria. -->
+<nfeProc versao="4.00">
+  <NFe>
+    <infNFe Id="NFe31250598765432000155550010000451231000451237" versao="4.00">
+      <ide>
+        <cUF>31</cUF>
+        <natOp>Venda de mercadoria</natOp>
+        <mod>55</mod>
+        <serie>1</serie>
+        <nNF>45123</nNF>
+        <dhEmi>2025-05-12T09:14:00-03:00</dhEmi>
+        <tpNF>1</tpNF>
+      </ide>
+      <emit>
+        <CNPJ>98765432000155</CNPJ>
+        <xNome>Cimentos Minas S.A.</xNome>
+        <IE>0987654321</IE>
+      </emit>
+      <dest>
+        <CNPJ>12345678000195</CNPJ>
+        <xNome>Alves Madeiras e Materiais de Construcao LTDA</xNome>
+      </dest>
+      <det nItem="1">
+        <prod>
+          <cProd>CIM-50</cProd>
+          <xProd>Cimento CP II 50kg</xProd>
+          <NCM>25232910</NCM>
+          <uCom>SC</uCom>
+          <qCom>300.0000</qCom>
+          <vUnCom>27.50</vUnCom>
+          <vProd>8250.00</vProd>
+        </prod>
+      </det>
+      <det nItem="2">
+        <prod>
+          <cProd>ARG-AC3</cProd>
+          <xProd>Argamassa ACIII 20kg</xProd>
+          <NCM>38245000</NCM>
+          <uCom>SC</uCom>
+          <qCom>120.0000</qCom>
+          <vUnCom>29.80</vUnCom>
+          <vProd>3576.00</vProd>
+        </prod>
+      </det>
+      <det nItem="3">
+        <prod>
+          <cProd>CAL-20</cProd>
+          <xProd>Cal hidratada CH-III 20kg</xProd>
+          <NCM>25221000</NCM>
+          <uCom>SC</uCom>
+          <qCom>150.0000</qCom>
+          <vUnCom>14.20</vUnCom>
+          <vProd>2130.00</vProd>
+        </prod>
+      </det>
+      <total>
+        <ICMSTot>
+          <vProd>13956.00</vProd>
+          <vNF>13956.00</vNF>
+        </ICMSTot>
+      </total>
+    </infNFe>
+  </NFe>
+  <protNFe versao="4.00">
+    <infProt>
+      <chNFe>31250598765432000155550010000451231000451237</chNFe>
+      <nProt>131250004512345</nProt>
+      <cStat>100</cStat>
+      <xMotivo>Autorizado o uso da NF-e</xMotivo>
+    </infProt>
+  </protNFe>
+</nfeProc>

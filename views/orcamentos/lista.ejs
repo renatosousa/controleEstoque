@@ -1,0 +1,30 @@
+<div class="pagina-titulo">
+  <div><h1>Orçamentos</h1><p>Proposta ao cliente; quando aprovada, vira venda com baixa de estoque</p></div>
+  <a href="/orcamentos/novo" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Novo orçamento</a>
+</div>
+
+<%- include('../partials/alertas') %>
+
+<div class="card">
+  <div class="table-responsive">
+    <table class="table mb-0">
+      <thead><tr><th>Número</th><th>Cliente</th><th>Criado em</th><th>Validade</th><th class="text-end">Total</th><th>Status</th></tr></thead>
+      <tbody>
+        <% if (!orcamentos.length) { %>
+          <tr><td colspan="6" class="text-muted">Nenhum orçamento cadastrado.</td></tr>
+        <% } %>
+        <% orcamentos.forEach(function (orcamento) {
+             const cores = { aberto: 'secondary', aprovado: 'primary', recusado: 'danger', convertido: 'success' }; %>
+          <tr>
+            <td><a href="/orcamentos/<%= orcamento.id %>"><%= orcamento.numero %></a></td>
+            <td><%= orcamento.cliente %></td>
+            <td><%= formato.dataHora(orcamento.criado_em) %></td>
+            <td><%= formato.data(orcamento.validade) %></td>
+            <td class="text-end"><%= formato.moeda(orcamento.total) %></td>
+            <td><span class="badge text-bg-<%= cores[orcamento.status] %>"><%= orcamento.status %></span></td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </div>
+</div>

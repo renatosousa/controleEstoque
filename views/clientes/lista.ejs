@@ -1,0 +1,25 @@
+<div class="pagina-titulo">
+  <div><h1>Clientes</h1><p>Pessoas físicas e jurídicas atendidas pela loja</p></div>
+  <a href="/clientes/novo" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Novo cliente</a>
+</div>
+
+<%- include('../partials/alertas') %>
+
+<div class="card">
+  <div class="table-responsive">
+    <table class="table mb-0">
+      <thead><tr><th>Nome</th><th>CPF/CNPJ</th><th>Contato</th><th class="text-end">Compras</th><th class="text-end">Total</th></tr></thead>
+      <tbody>
+        <% clientes.forEach(function (cliente) { %>
+          <tr>
+            <td><%= cliente.nome %><br><small class="text-muted"><%= cliente.endereco || '' %></small></td>
+            <td><%= cliente.documento || '-' %></td>
+            <td><%= cliente.telefone || '-' %><br><small class="text-muted"><%= cliente.email || '' %></small></td>
+            <td class="text-end"><%= cliente.compras %></td>
+            <td class="text-end"><%= formato.moeda(cliente.total_comprado) %></td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </div>
+</div>

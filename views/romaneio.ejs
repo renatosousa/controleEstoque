@@ -1,61 +1,69 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title><%= title %></title>
-      <link rel='stylesheet' href='/stylesheets/style.css' />
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-      <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-      <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-      <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
-        <script src="javascripts/romaneio.js"></script>
-  </head>
-  <body ng-app="appRomaneio">
-    <div class="container ng-scope" ng-controller="ComprimentosController">
-        <div class="row">
-            <div class="page-header">
-              <h1><%= title %></h1>
-            </div>
+<div class="pagina-titulo">
+  <div>
+    <h1>Romaneio de madeira</h1>
+    <p>Cálculo de volume por peça (comprimento × largura × espessura × quantidade)</p>
+  </div>
+</div>
+
+<div class="row g-3">
+  <div class="col-lg-4">
+    <form class="card card-body" id="form-peca">
+      <div class="mb-3">
+        <label class="form-label">Descrição</label>
+        <input class="form-control" name="descricao" placeholder="Ex.: Caibro 5x6" required>
+      </div>
+      <div class="row g-2">
+        <div class="col-6 mb-3">
+          <label class="form-label">Comprimento (m)</label>
+          <input type="number" class="form-control" name="comprimento" step="0.01" min="0.01" value="3" required>
         </div>
-
-        <div class="row">
-            <form class="form-inline ng-pristine ng-valid" name="formItem">
-                <input type="number" ng-model="item.comprimento" placeholder="Comprimento" class="ng-pristine ng-valid" ng-required="true">
-
-                <button class="btn btn-primary" ng-click="adicionaComprimento()">add</button>
-            </form>
+        <div class="col-6 mb-3">
+          <label class="form-label">Largura (cm)</label>
+          <input type="number" class="form-control" name="largura" step="0.1" min="0.1" value="6" required>
         </div>
-
-        <div class="row">
-            <form>
-            <table id="lista-compras" class="table table-striped">
-                <thead>
-                <tr>
-                    <th>Comprimento</th>
-                    <th>Quantidade</th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="item in itens" class="comprado-false">
-                        <td><strong class="ng-binding" > {{ item.comprimento }}</strong></td>
-                        <td><input type="number" ng-model="item.quantidade" ng-change="change(item.quantidade, item.indice)" ></td>
-                        <td><button ng-click="excluir(item.indice)">Excluir</button></td>
-                    </tr>
-               </tbody>
-                <tfoot>
-                <tr>
-                    <td> Total: </td>
-                    <td></td>
-                    <td class="ng-binding"> {{ total }} cm3 </td>
-                </tr>
-                </tfoot>
-            </table>
-            </form>
+        <div class="col-6 mb-3">
+          <label class="form-label">Espessura (cm)</label>
+          <input type="number" class="form-control" name="espessura" step="0.1" min="0.1" value="5" required>
         </div>
+        <div class="col-6 mb-3">
+          <label class="form-label">Quantidade</label>
+          <input type="number" class="form-control" name="quantidade" step="1" min="1" value="10" required>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Preço por m³ (R$)</label>
+        <input type="number" class="form-control" name="preco" step="0.01" min="0" value="0">
+      </div>
+      <button class="btn btn-primary w-100"><i class="bi bi-plus-lg"></i> Adicionar peça</button>
+    </form>
+  </div>
 
-
+  <div class="col-lg-8">
+    <div class="card">
+      <div class="card-header bg-white fw-semibold">Peças do romaneio</div>
+      <div class="table-responsive">
+        <table class="table mb-0 align-middle">
+          <thead>
+            <tr>
+              <th>Descrição</th><th>Bitola</th><th class="text-end">Qtd.</th>
+              <th class="text-end">Volume (m³)</th><th class="text-end">Valor</th><th></th>
+            </tr>
+          </thead>
+          <tbody id="corpo-romaneio">
+            <tr id="linha-vazia"><td colspan="6" class="text-muted">Nenhuma peça lançada.</td></tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <th colspan="3" class="text-end">Total</th>
+              <th class="text-end" id="total-volume">0,000 m³</th>
+              <th class="text-end" id="total-valor">R$ 0,00</th>
+              <th></th>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
     </div>
-  </body>
-</html>
+  </div>
+</div>
+
+<script src="/javascripts/romaneio.js"></script>

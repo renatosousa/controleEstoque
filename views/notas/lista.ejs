@@ -1,0 +1,38 @@
+<div class="pagina-titulo">
+  <div><h1>Notas fiscais</h1><p>NF-e de saída (venda) e de entrada (recebimento de mercadoria)</p></div>
+</div>
+
+<%- include('../partials/alertas') %>
+
+<div class="alert alert-warning">
+  <i class="bi bi-info-circle"></i> Emissão <strong>simulada</strong> para demonstração: a chave de acesso e o XML seguem o
+  layout 4.00, mas não há transmissão nem autorização junto à SEFAZ.
+</div>
+
+<div class="card">
+  <div class="table-responsive">
+    <table class="table mb-0">
+      <thead><tr><th>Tipo</th><th>Número</th><th>Participante</th><th>Emissão</th><th class="text-end">Valor</th><th>Chave</th><th></th></tr></thead>
+      <tbody>
+        <% if (!notas.length) { %>
+          <tr><td colspan="7" class="text-muted">Nenhuma nota emitida ou recebida.</td></tr>
+        <% } %>
+        <% notas.forEach(function (nota) { %>
+          <tr>
+            <td><span class="badge text-bg-<%= nota.tipo === 'saida' ? 'primary' : 'success' %>"><%= nota.tipo %></span></td>
+            <td><a href="/notas/<%= nota.id %>"><%= nota.numero %></a></td>
+            <td><%= nota.cliente || nota.fornecedor || '-' %></td>
+            <td><%= formato.dataHora(nota.emitida_em) %></td>
+            <td class="text-end"><%= formato.moeda(nota.valor_total) %></td>
+            <td class="small text-muted"><%= nota.chave %></td>
+            <td class="text-end">
+              <% if (nota.xml) { %>
+                <a class="btn btn-sm btn-outline-secondary" href="/notas/<%= nota.id %>/xml"><i class="bi bi-filetype-xml"></i></a>
+              <% } %>
+            </td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </div>
+</div>

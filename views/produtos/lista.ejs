@@ -1,0 +1,40 @@
+<div class="pagina-titulo">
+  <div>
+    <h1>Produtos</h1>
+    <p>Cadastro com preço de custo, venda e estoque mínimo</p>
+  </div>
+  <a href="/produtos/novo" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Novo produto</a>
+</div>
+
+<%- include('../partials/alertas') %>
+
+<div class="card">
+  <div class="table-responsive">
+    <table class="table mb-0 align-middle">
+      <thead>
+        <tr>
+          <th>Código</th><th>Descrição</th><th>Un.</th><th class="text-end">Custo</th>
+          <th class="text-end">Venda</th><th class="text-end">Saldo</th><th class="text-end">Mínimo</th><th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% produtos.forEach(function (produto) { %>
+          <tr>
+            <td><code><%= produto.codigo %></code></td>
+            <td><%= produto.descricao %></td>
+            <td><%= produto.unidade %></td>
+            <td class="text-end"><%= formato.moeda(produto.preco_custo) %></td>
+            <td class="text-end"><%= formato.moeda(produto.preco_venda) %></td>
+            <td class="text-end <%= produto.saldo < produto.estoque_minimo ? 'text-danger fw-semibold' : '' %>">
+              <%= formato.quantidade(produto.saldo) %>
+            </td>
+            <td class="text-end text-muted"><%= formato.quantidade(produto.estoque_minimo) %></td>
+            <td class="text-end">
+              <a href="/produtos/<%= produto.id %>/editar" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil"></i></a>
+            </td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </div>
+</div>
