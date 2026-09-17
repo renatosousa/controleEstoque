@@ -1,11 +1,23 @@
 const fs = require('fs');
+const os = require('os');
 const path = require('path');
 const Database = require('better-sqlite3');
 
-const dataDir = path.join(__dirname, '..', 'data');
-if (!fs.existsSync(dataDir)) {
-  fs.mkdirSync(dataDir, { recursive: true });
+function resolverDiretorioDados() {
+  const preferido = path.join(__dirname, '..', 'data');
+  try {
+    fs.mkdirSync(preferido, { recursive: true });
+    return preferido;
+  } catch (err) {
+    // Em ambientes serverless (ex.: Vercel) o diretório da função é somente
+    // leitura; nesse caso usamos /tmp, que é gravável durante a execução.
+    const alternativo = path.join(os.tmpdir(), 'controle-estoque-data');
+    fs.mkdirSync(alternativo, { recursive: true });
+    return alternativo;
+  }
 }
+
+const dataDir = process.env.DB_FILE ? null : resolverDiretorioDados();
 
 const db = new Database(process.env.DB_FILE || path.join(dataDir, 'erp.db'));
 db.pragma('journal_mode = WAL');
