@@ -131,7 +131,12 @@ function numero(valor) {
 // Lê um XML de NF-e (layout 4.00) recebido de fornecedor e extrai o que o
 // recebimento de mercadoria precisa para dar entrada no estoque.
 async function lerXmlNFe(conteudo) {
-  const parsed = await xml2js.parseStringPromise(conteudo, { explicitArray: true });
+  let parsed;
+  try {
+    parsed = await xml2js.parseStringPromise(conteudo, { explicitArray: true });
+  } catch {
+    throw new Error('XML inválido: não foi possível ler o arquivo. Envie o XML da NF-e emitido pelo fornecedor.');
+  }
   const raiz = parsed.nfeProc || parsed;
   const nfe = primeiro(raiz.NFe) || raiz;
   const infNFe = primeiro(nfe.infNFe);
