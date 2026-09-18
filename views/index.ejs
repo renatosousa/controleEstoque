@@ -12,26 +12,26 @@
 <div class="row g-3 mb-4">
   <div class="col-6 col-lg-3">
     <div class="card card-indicador h-100"><div class="card-body">
-      <div class="rotulo">Faturamento</div>
+      <div class="rotulo"><i class="bi bi-graph-up-arrow"></i> Faturamento</div>
       <div class="valor"><%= formato.moeda(totalVendido) %></div>
     </div></div>
   </div>
   <div class="col-6 col-lg-3">
     <div class="card card-indicador h-100"><div class="card-body">
-      <div class="rotulo">Estoque valorizado</div>
+      <div class="rotulo"><i class="bi bi-boxes"></i> Estoque valorizado</div>
       <div class="valor"><%= formato.moeda(valorEstoque) %></div>
       <small class="text-muted"><%= totalProdutos %> produtos cadastrados</small>
     </div></div>
   </div>
   <div class="col-6 col-lg-3">
     <div class="card card-indicador h-100"><div class="card-body">
-      <div class="rotulo">Orçamentos abertos</div>
+      <div class="rotulo"><i class="bi bi-file-earmark-text"></i> Orçamentos abertos</div>
       <div class="valor"><%= orcamentosAbertos %></div>
     </div></div>
   </div>
   <div class="col-6 col-lg-3">
     <div class="card card-indicador h-100"><div class="card-body">
-      <div class="rotulo">NF-e emitidas</div>
+      <div class="rotulo"><i class="bi bi-receipt"></i> NF-e emitidas</div>
       <div class="valor"><%= notasEmitidas %></div>
     </div></div>
   </div>
